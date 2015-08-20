@@ -1,23 +1,13 @@
-Tailor Toys PowerUp 3.0 app for Android
-=======================================
+PowerUp Flitchio Controller
+===========================
 
-This is the official Android app for the TailorToys PowerUp 3.0.
-It's a fork of TobyRich SmartPlane app.
-More information about the PowerUp 3.0 is available on http://poweruptoys.com/
+This is the official app to control the Tailor Toys PowerUp "paper airplane" with Flitchio.
 
-Project maintainer: Prashant Vaibhav <prashant.vaibhav@tobyrich.com> github username `pvaibhav`
+It is directly forked from their official app [TailorToys/app-powerup-android][powerup-repo],
+which was itself forked from [TobyRich/app-smartplane-android][smartplane-repo].
 
-Building
-========
+We just add the Flitchio layer to it, allowing the plane to be piloted with Flitchio:
+with physical buttons and joysticks, feel that you are now in control!
 
-- Requirements: Android SDK 4.3 (API level 18), build-tools 19.1.0
-
-If you use Android Studio, clone this repository, and "Import" it as an Android project.
-
-Building on the commandline requires gradle.
-
-lib-smartlink-android
-=====================
-
-This project depends on the SmartLink library. It's included as a precompiled .jar file,
-but if you'd like the source code, you can find it at http://github.com/TobyRich/lib-smartlink-android
+More information about the PowerUp on http://poweruptoys.com/
+More information about Flitchio on http://flitch.io/
