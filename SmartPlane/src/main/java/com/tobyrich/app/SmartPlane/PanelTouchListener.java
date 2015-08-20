@@ -33,6 +33,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.supenta.flitchio.sdk.ButtonEvent;
+import com.supenta.flitchio.sdk.FlitchioListener;
+import com.supenta.flitchio.sdk.InputElement;
+import com.supenta.flitchio.sdk.JoystickEvent;
 import com.tailortoys.app.PowerUp.R;
 import com.tobyrich.app.SmartPlane.util.Const;
 import com.tobyrich.app.SmartPlane.util.Util;
@@ -45,17 +49,15 @@ import lib.smartlink.driver.BLESmartplaneService;
  * Refactored by: Radu Hambasan
  */
 
-public class PanelTouchListener implements View.OnTouchListener {
-    private Activity activity;
-    private PlaneState planeState;
-    private BluetoothDelegate bluetoothDelegate;
-
+public class PanelTouchListener implements View.OnTouchListener, FlitchioListener {
     ImageView slider;
     ImageView throttleNeedle;
     TextView throttleText;
-
     /* constant only for a specific device */
-   float maxCursorRange = -1;  // uninitialized
+    float maxCursorRange = -1;  // uninitialized
+    private Activity activity;
+    private PlaneState planeState;
+    private BluetoothDelegate bluetoothDelegate;
 
     public PanelTouchListener(Activity activity, BluetoothDelegate bluetoothDelegate) {
         this.activity = activity;
@@ -124,4 +126,38 @@ public class PanelTouchListener implements View.OnTouchListener {
         return true; // the event was digested, keep listening for touch events
     }
 
+    @Override
+    public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
+        // Our button pressure ranges in [min = 0.0; max = 1.0]
+        float pressure = buttonEvent.getPressure();
+
+        // But the app expects another range, and inverse: [min = maxCursorRange; max = 0]
+        pressure = (1f - pressure) * maxCursorRange;
+
+        if (button == InputElement.BUTTON_TOP) {
+            MotionEvent fakeEvent = MotionEvent.obtain(
+                    0 /* downTime */,
+                    0 /* eventTime */,
+                    MotionEvent.ACTION_MOVE /* action */,
+                    0 /* x: is not read anyway */,
+                    pressure /* y */,
+                    0 /* metaState */
+            );
+
+            onTouch(
+                    null /* v */,
+                    fakeEvent
+            );
+        }
+    }
+
+    @Override
+    public void onFlitchioJoystickEvent(InputElement.Joystick joystick, JoystickEvent joystickEvent) {
+
+    }
+
+    @Override
+    public void onFlitchioStatusChanged(boolean b) {
+
+    }
 }

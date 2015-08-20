@@ -40,6 +40,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -53,7 +54,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.supenta.flitchio.sdk.FlitchioController;
+import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
 import com.tailortoys.app.PowerUp.R;
 import com.tobyrich.app.SmartPlane.util.Const;
 import com.tobyrich.app.SmartPlane.util.MeteoTask;
@@ -88,6 +92,9 @@ public class FullscreenActivity extends Activity {
     private AudioManager audioManager;
     private SharedPreferences buttonConfig;  // cached button configuration
 
+    private FlitchioController flitchioController;
+    private PanelTouchListener panelTouchListener; // acts as a listener for both Flitchio and touch
+
     @Override
     public void onResume() {
         super.onResume();
@@ -99,6 +106,10 @@ public class FullscreenActivity extends Activity {
         if (sensorHandler != null) {
             sensorHandler.registerListener();
         }
+
+        if (flitchioController != null && panelTouchListener != null) {
+            flitchioController.onResume(panelTouchListener, new Handler());
+        }
     }
 
     @Override
@@ -106,6 +117,10 @@ public class FullscreenActivity extends Activity {
         super.onPause();
         if (sensorHandler != null) {
             sensorHandler.unregisterListener();
+        }
+
+        if (flitchioController != null) {
+            flitchioController.onPause();
         }
     }
 
@@ -128,6 +143,23 @@ public class FullscreenActivity extends Activity {
         screenPager.setOffscreenPageLimit(2);
 
         buttonConfig = this.getSharedPreferences("button_config", MODE_PRIVATE);
+
+        flitchioController = FlitchioController.getInstance(this);
+        try {
+            flitchioController.onCreate();
+        } catch (FlitchioManagerDependencyException e) {
+            Toast.makeText(this, getString(R.string.flitchio_create_error), Toast.LENGTH_LONG).show();
+            flitchioController = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (flitchioController != null) {
+            flitchioController.onDestroy();
+        }
+
+        super.onDestroy();
     }
 
     @Override
@@ -237,9 +269,13 @@ public class FullscreenActivity extends Activity {
             }
         });
 
+        panelTouchListener = new PanelTouchListener(this, bluetoothDelegate);
+        if (flitchioController != null) {
+            flitchioController.onResume(panelTouchListener, new Handler());
+        }
+
         ImageView controlPanel = (ImageView) findViewById(R.id.imgPanel);
-        controlPanel.setOnTouchListener(new PanelTouchListener(this,
-                bluetoothDelegate));
+        controlPanel.setOnTouchListener(panelTouchListener);
 
         final ImageView checklist_vw = (ImageView) findViewById(R.id.checklist);
         checklist_vw.setOnClickListener(new View.OnClickListener() {
@@ -256,11 +292,11 @@ public class FullscreenActivity extends Activity {
                 // dismiss the dialog on touch
                 checklist.findViewById(R.id.checklist_linearlayout)
                         .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checklist.dismiss();
-                    }
-                });
+                            @Override
+                            public void onClick(View v) {
+                                checklist.dismiss();
+                            }
+                        });
 
                 checklist.show();
             }

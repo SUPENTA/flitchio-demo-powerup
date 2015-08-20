@@ -72,6 +72,7 @@
     Plug in cable\n
     Check LED\n
     </string>
+    <string name="flitchio_create_error">Your version of Flitchio Manager is too old. Please update it.</string>
 
 
 </resources>
