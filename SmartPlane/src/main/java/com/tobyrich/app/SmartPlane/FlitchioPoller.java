@@ -32,7 +32,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.supenta.flitchio.sdk.ButtonEvent;
+import com.supenta.flitchio.sdk.FlitchioController;
 import com.supenta.flitchio.sdk.FlitchioListener;
+import com.supenta.flitchio.sdk.FlitchioSnapshot;
 import com.supenta.flitchio.sdk.InputElement;
 import com.supenta.flitchio.sdk.JoystickEvent;
 import com.tailortoys.app.PowerUp.R;
@@ -42,12 +44,12 @@ import com.tobyrich.app.SmartPlane.util.Util;
 import lib.smartlink.driver.BLESmartplaneService;
 
 /**
- * @author Samit Vaidya
- * @date 04 March 2014
- * Refactored by: Radu Hambasan
+ * Acts as a mix of both polling mode (to get the data as fast as possible) and listening mode
+ * (to get update about the connection status)
  */
+public class FlitchioPoller extends Thread implements FlitchioListener {
+    private static final long SLEEP_TIME_MS = 25;
 
-public class PanelTouchListener implements FlitchioListener {
     ImageView slider;
     ImageView throttleNeedle;
     TextView throttleText;
@@ -56,19 +58,46 @@ public class PanelTouchListener implements FlitchioListener {
     private Activity activity;
     private PlaneState planeState;
     private BluetoothDelegate bluetoothDelegate;
+    private FlitchioController flitchioController;
 
-    public PanelTouchListener(Activity activity, BluetoothDelegate bluetoothDelegate) {
+    public FlitchioPoller(Activity activity, FlitchioController flitchioController, BluetoothDelegate bluetoothDelegate) {
         this.activity = activity;
         this.planeState = (PlaneState) activity.getApplicationContext();
         this.bluetoothDelegate = bluetoothDelegate;
+        this.flitchioController = flitchioController;
 
         slider = (ImageView) activity.findViewById(R.id.throttleCursor);
         throttleNeedle = (ImageView) activity.findViewById(R.id.imgThrottleNeedle);
         throttleText = (TextView) activity.findViewById(R.id.throttleValue);
-
     }
 
-    public void processEvent(final float throttleValue) {
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            if (((PlaneState) activity.getApplication()).screenLocked) {
+                return;
+            }
+
+            if (flitchioController != null && flitchioController.isConnected()) {
+                FlitchioSnapshot snap = flitchioController.obtainSnapshot();
+                final float pressure = snap.getButtonPressure(InputElement.BUTTON_TOP);
+
+                processEvent(pressure);
+            }
+
+            try {
+                Thread.sleep(SLEEP_TIME_MS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void processEvent(final float pressure) {
+        // Our button pressure ranges in [min = 0.0; max = 1.0]
+        // But the app expects another range, and inverse: [min = maxCursorRange; max = 0]
+        final float throttleValue = (1f - pressure) * maxCursorRange;
+
         /* If uninitialized, initialize maxCursorRange */
         if (maxCursorRange == -1) {
             float panelHeight = activity.findViewById(R.id.imgPanel).getHeight();
@@ -105,7 +134,7 @@ public class PanelTouchListener implements FlitchioListener {
 
         Util.rotateImageView(throttleNeedle, adjustedMotorSpeed,
                 Const.THROTTLE_NEEDLE_MIN_ANGLE, Const.THROTTLE_NEEDLE_MAX_ANGLE);
-        throttleText.setText((short) (adjustedMotorSpeed * 100) + "%");
+        updateThrottleText(throttleText, adjustedMotorSpeed);
 
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
         // The smartPlaneService might not be available
@@ -115,30 +144,31 @@ public class PanelTouchListener implements FlitchioListener {
         smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
     }
 
+    private void updateThrottleText(final TextView throttleText, final float adjustedMotorSpeed) {
+        throttleText.post(new Runnable() {
+            @Override
+            public void run() {
+                throttleText.setText((short) (adjustedMotorSpeed * 100) + "%");
+            }
+        });
+    }
+
     @Override
     public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
-        if (((PlaneState) activity.getApplication()).screenLocked) {
-            return;
-        }
-
-        // Our button pressure ranges in [min = 0.0; max = 1.0]
-        float pressure = buttonEvent.getPressure();
-
-        // But the app expects another range, and inverse: [min = maxCursorRange; max = 0]
-        pressure = (1f - pressure) * maxCursorRange;
-
-        if (button == InputElement.BUTTON_TOP) {
-            processEvent(pressure);
-        }
     }
 
     @Override
     public void onFlitchioJoystickEvent(InputElement.Joystick joystick, JoystickEvent joystickEvent) {
-
     }
 
     @Override
     public void onFlitchioStatusChanged(boolean isConnected) {
         Util.setFlitchioStatusConnected(activity, isConnected);
+
+        if (isConnected && !isAlive()) {
+            start(); // problem if we start it several times?
+        } else if (!isConnected) {
+            interrupt();
+        }
     }
 }

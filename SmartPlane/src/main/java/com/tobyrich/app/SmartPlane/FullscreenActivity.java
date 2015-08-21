@@ -92,7 +92,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private SharedPreferences buttonConfig;  // cached button configuration
 
     private FlitchioController flitchioController;
-    private PanelTouchListener panelTouchListener; // acts as a listener for both Flitchio and touch
+    private FlitchioPoller flitchioPoller;
 
     @Override
     public void onResume() {
@@ -102,8 +102,8 @@ public class FullscreenActivity extends AppCompatActivity {
         ViewTreeObserver viewTree = findViewById(R.id.controlPanel).getViewTreeObserver();
         viewTree.addOnGlobalLayoutListener(new GlobalLayoutListener(this));
 
-        if (flitchioController != null && panelTouchListener != null) {
-            flitchioController.onResume(panelTouchListener, new Handler());
+        if (flitchioController != null && flitchioPoller != null) {
+            flitchioController.onResume(flitchioPoller, new Handler());
         }
     }
 
@@ -246,9 +246,9 @@ public class FullscreenActivity extends AppCompatActivity {
                 });
 
 
-        panelTouchListener = new PanelTouchListener(this, bluetoothDelegate);
         if (flitchioController != null) {
-            flitchioController.onResume(panelTouchListener, new Handler());
+            flitchioPoller = new FlitchioPoller(this, flitchioController, bluetoothDelegate);
+            flitchioController.onResume(flitchioPoller, new Handler());
         }
 
         final ImageView checklist_vw = (ImageView) findViewById(R.id.checklist);
