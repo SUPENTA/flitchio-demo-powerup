@@ -44,8 +44,8 @@
     <string name="label_battery">BATTERY</string>
     <string name="label_signalStrength">dBm</string>
     <string name="label_compass">HDG</string>
-    <string name="label_searching">Searching&#8230;</string>
-    <string name="label_connecting">Connecting&#8230;</string>
+    <string name="label_searching">Searching plane&#8230;</string>
+    <string name="label_connecting">Connecting to plane&#8230;</string>
     <string name="label_revRudder">Reverse Rudder</string>
     <string name="label_flightAssist">Flight Assist</string>
     <string name="label_weatherCenter">Weather Center</string>
@@ -56,7 +56,7 @@
     <string name="checklist_title">Flight checklist</string>
     <string name="checklist_text">
     \ <u>BEFORE TAKEOFF</u>\n <!-- notice the \ at the beginning -->
-    Check Weather Center\n
+        Check Weather Center\n
     Other air traffic\n
     Turn on plane\n
     Connection established\n
