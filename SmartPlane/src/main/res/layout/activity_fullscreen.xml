@@ -268,8 +268,8 @@
             <ImageView
                 android:id="@+id/throttleCursor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignTop="@id/textSignal"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:contentDescription="@string/desc_throttleSlider"
                 android:longClickable="false"
                 android:scaleType="fitCenter"
