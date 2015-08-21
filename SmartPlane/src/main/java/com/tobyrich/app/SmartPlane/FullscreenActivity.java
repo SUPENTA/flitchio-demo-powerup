@@ -237,28 +237,6 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
-        final ImageView atcOffButton = (ImageView) findViewById(R.id.atcOff);
-        final ImageView atcOnButton = (ImageView) findViewById(R.id.atcOn);
-
-        atcSound = MediaPlayer.create(this, R.raw.atc_sounds1);
-        atcOffButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                atcOnButton.setVisibility(View.VISIBLE);
-                v.setVisibility(View.GONE);
-                if (atcSound != null) atcSound.start();
-            }
-        });
-
-        atcOnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                atcOffButton.setVisibility(View.VISIBLE);
-                v.setVisibility(View.GONE);
-                if (atcSound != null) atcSound.pause();
-            }
-        });
-
         panelTouchListener = new PanelTouchListener(this, bluetoothDelegate);
         if (flitchioController != null) {
             flitchioController.onResume(panelTouchListener, new Handler());
@@ -339,29 +317,22 @@ public class FullscreenActivity extends AppCompatActivity {
                 Const.DEFAULT_FLIGHT_ASSIST);
         flAssistSwitch.setChecked(enableFlAssist);
 
+        atcSound = MediaPlayer.create(this, R.raw.atc_sounds1);
+
         final Switch towerSwitch = (Switch) findViewById(R.id.towerSwitch);
         towerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, FX_VOLUME);
-                ImageView atcOn = (ImageView) findViewById(R.id.atcOn);
-                ImageView atcOff = (ImageView) findViewById(R.id.atcOff);
-
-                if ((atcOn == null) || (atcOff == null)) {
-                    Log.e(TAG, "Main screen was destroyed.");
-                    return;
-                }
 
                 if (atcSound != null && atcSound.isPlaying()) {
                     atcSound.pause();
                 }
 
                 if (isChecked) {
-                    atcOff.setVisibility(View.VISIBLE);
-                    atcOn.setVisibility(View.GONE);
+                    if (atcSound != null) atcSound.start();
                 } else {
-                    atcOn.setVisibility(View.GONE);
-                    atcOff.setVisibility(View.GONE);
+                    if (atcSound != null) atcSound.pause();
                 }
 
                 buttonConfig.edit().putBoolean("atcTower", isChecked).apply();

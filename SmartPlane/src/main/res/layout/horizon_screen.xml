@@ -59,25 +59,6 @@
             android:src="@drawable/social_share" />
 
         <ImageView
-            android:id="@+id/atcOff"
-            android:layout_width="69dp"
-            android:layout_height="69dp"
-            android:layout_gravity="left|bottom"
-            android:clickable="false"
-            android:contentDescription="@string/desc_atcOff"
-            android:src="@drawable/atc_off" />
-
-        <ImageView
-            android:id="@+id/atcOn"
-            android:layout_width="69dp"
-            android:layout_height="69dp"
-            android:layout_gravity="left|bottom"
-            android:clickable="false"
-            android:contentDescription="@string/desc_atcOn"
-            android:src="@drawable/atc_on"
-            android:visibility="invisible" />
-
-        <ImageView
             android:id="@+id/checklist"
             android:layout_width="40dp"
             android:layout_height="40dp"
