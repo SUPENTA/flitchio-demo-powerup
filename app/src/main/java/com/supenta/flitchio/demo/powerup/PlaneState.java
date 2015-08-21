@@ -25,11 +25,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import android.app.Application;
 
-import com.tobyrich.app.SmartPlane.util.Const;
+import com.supenta.flitchio.demo.powerup.util.Const;
 
 /**
  * @author Radu Hambasan

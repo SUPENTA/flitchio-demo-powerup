@@ -1,6 +1,6 @@
-package com.tobyrich.app.SmartPlane.TransportLayers;
+package com.supenta.flitchio.demo.powerup.TransportLayers;
 
-import com.tobyrich.app.SmartPlane.TEvent;
+import com.supenta.flitchio.demo.powerup.TEvent;
 
 /**
  * @author Radu Hambasan

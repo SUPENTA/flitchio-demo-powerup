@@ -26,15 +26,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import android.app.Activity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tailortoys.app.PowerUp.R;
-import com.tobyrich.app.SmartPlane.util.Const;
-import com.tobyrich.app.SmartPlane.util.Util;
+import com.supenta.flitchio.demo.powerup.util.Const;
+import com.supenta.flitchio.demo.powerup.util.Util;
 
 /**
  * Class containing various listeners that are notified by bluetooth devices

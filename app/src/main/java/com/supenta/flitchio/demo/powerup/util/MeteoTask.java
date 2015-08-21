@@ -1,4 +1,4 @@
-package com.tobyrich.app.SmartPlane.util;
+package com.supenta.flitchio.demo.powerup.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,14 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tailortoys.app.PowerUp.R;
+import com.supenta.flitchio.demo.powerup.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.Map;
 
 /**
  * @author Radu Hambasan
@@ -33,10 +30,10 @@ class MeteoData {
 }
 
 public class MeteoTask extends AsyncTask<Void, Void, MeteoData> {
+    final String BASE_FETCH_URL = "http://api.openweathermap.org/data/2.5/find?";
     @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "MeteoTask";
     private final Activity activity;
-    final String BASE_FETCH_URL = "http://api.openweathermap.org/data/2.5/find?";
 
     public MeteoTask(Activity activity) {
         this.activity = activity;
@@ -149,7 +146,7 @@ public class MeteoTask extends AsyncTask<Void, Void, MeteoData> {
                     fw13("Forecast: ") + result.weather_descr + "\n";
 
             String wind_txt = "W:" + result.wind_deg + "\u00b0/" + result.wind_speed + "kmph";
-            String temp_txt = "T:" + kelvin_temp + "K/" +  celsius_temp + "\u2103";
+            String temp_txt = "T:" + kelvin_temp + "K/" + celsius_temp + "\u2103";
 
             TextView wind_txt_vw = (TextView) activity.findViewById(R.id.horizon_wind_txt);
             wind_txt_vw.setText(wind_txt);

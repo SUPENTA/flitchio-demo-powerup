@@ -26,7 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import java.lang.ref.WeakReference;
 import java.util.TimerTask;

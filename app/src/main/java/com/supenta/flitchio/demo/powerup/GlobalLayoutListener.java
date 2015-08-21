@@ -25,7 +25,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.tailortoys.app.PowerUp.R;
 
 /**
  * Class in charge of maintaining the aspect ratio of the control panel
@@ -41,9 +40,10 @@ import com.tailortoys.app.PowerUp.R;
 public class GlobalLayoutListener implements ViewTreeObserver.OnGlobalLayoutListener {
     private Activity activity;
 
-    public GlobalLayoutListener (Activity activity) {
+    public GlobalLayoutListener(Activity activity) {
         this.activity = activity;
     }
+
     @Override
     public void onGlobalLayout() {
         ImageView imagePanel = (ImageView) activity.findViewById(R.id.imgPanel);
