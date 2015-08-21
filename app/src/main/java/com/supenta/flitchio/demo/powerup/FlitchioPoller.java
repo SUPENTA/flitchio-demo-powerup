@@ -51,6 +51,7 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
 
     ImageView slider;
     ImageView throttleNeedle;
+    ImageView horizonImage;
     TextView throttleText;
     /* constant only for a specific device */
     float maxCursorRange = -1;  // uninitialized
@@ -68,6 +69,7 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         slider = (ImageView) activity.findViewById(R.id.throttleCursor);
         throttleNeedle = (ImageView) activity.findViewById(R.id.imgThrottleNeedle);
         throttleText = (TextView) activity.findViewById(R.id.throttleValue);
+        horizonImage = (ImageView) activity.findViewById(R.id.imageHorizon);
     }
 
     @Override
@@ -148,7 +150,7 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
      *
      * @param joystickX
      */
-    public void processJoystickX(float joystickX) {
+    public void processJoystickX(final float joystickX) {
         // We get x in [-1;1]
         // smartplaneService.setRudder expects a value in [-126;126]
         // Not sure yet what flight assist is, it seems to boost the value
@@ -164,7 +166,12 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
             );
         }
 
-        // TODO change something in the horizon view
+        horizonImage.post(new Runnable() {
+            @Override
+            public void run() {
+                horizonImage.setRotation(-30 * joystickX);
+            }
+        });
 
         // Increase throttle when turning if flight assist is enabled
         if (planeState.isFlAssistEnabled() && !planeState.screenLocked) {
