@@ -25,16 +25,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.tailortoys.app.PowerUp.R;
-import com.tobyrich.app.SmartPlane.util.Const;
-import com.tobyrich.app.SmartPlane.util.Util;
+import com.supenta.flitchio.demo.powerup.util.Const;
+import com.supenta.flitchio.demo.powerup.util.Util;
 
 import java.lang.ref.WeakReference;
 import java.util.Timer;
@@ -46,8 +45,12 @@ import lib.smartlink.driver.BLEBatteryService;
 import lib.smartlink.driver.BLEDeviceInformationService;
 import lib.smartlink.driver.BLESmartplaneService;
 
-import static com.tobyrich.app.SmartPlane.BluetoothTasks.*;
-import static com.tobyrich.app.SmartPlane.UIChangers.*;
+import static com.supenta.flitchio.demo.powerup.BluetoothTasks.ChargeTimerTask;
+import static com.supenta.flitchio.demo.powerup.BluetoothTasks.SignalTimerTask;
+import static com.supenta.flitchio.demo.powerup.UIChangers.BatteryLevelUIChanger;
+import static com.supenta.flitchio.demo.powerup.UIChangers.ChargeStatusTextChanger;
+import static com.supenta.flitchio.demo.powerup.UIChangers.SearchingStatusChanger;
+import static com.supenta.flitchio.demo.powerup.UIChangers.SignalLevelUIChanger;
 
 /**
  * Class responsible for callbacks from bluetooth devices

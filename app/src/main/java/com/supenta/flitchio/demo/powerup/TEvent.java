@@ -1,4 +1,4 @@
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import java.io.Serializable;
 

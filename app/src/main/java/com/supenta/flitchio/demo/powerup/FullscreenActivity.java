@@ -25,7 +25,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-package com.tobyrich.app.SmartPlane;
+package com.supenta.flitchio.demo.powerup;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,12 +56,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.supenta.flitchio.demo.powerup.util.Const;
+import com.supenta.flitchio.demo.powerup.util.MeteoTask;
+import com.supenta.flitchio.demo.powerup.util.Util;
 import com.supenta.flitchio.sdk.FlitchioController;
 import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
-import com.tailortoys.app.PowerUp.R;
-import com.tobyrich.app.SmartPlane.util.Const;
-import com.tobyrich.app.SmartPlane.util.MeteoTask;
-import com.tobyrich.app.SmartPlane.util.Util;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import lib.smartlink.BluetoothDisabledException;

@@ -25,7 +25,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-package com.tobyrich.app.SmartPlane.util;
+package com.supenta.flitchio.demo.powerup.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,7 +39,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tailortoys.app.PowerUp.R;
+import com.supenta.flitchio.demo.powerup.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,10 +1,10 @@
-package com.tobyrich.app.SmartPlane.TransportLayers;
+package com.supenta.flitchio.demo.powerup.TransportLayers;
 
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
-import com.tobyrich.app.SmartPlane.TEvent;
+import com.supenta.flitchio.demo.powerup.TEvent;
 
 import java.io.IOException;
 import java.io.InputStream;

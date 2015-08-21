@@ -1,4 +1,4 @@
-package com.tobyrich.app.SmartPlane.util;
+package com.supenta.flitchio.demo.powerup.util;
 
 /**
  * Smoothing engine based on a circular buffer.
