@@ -130,18 +130,8 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         // Shai requested 100% throttle even in FlightAssist mode.
 
         planeState.setMotorSpeed(motorSpeed);
-        float adjustedMotorSpeed = planeState.getAdjustedMotorSpeed();
-
-        Util.rotateImageView(throttleNeedle, adjustedMotorSpeed,
-                Const.THROTTLE_NEEDLE_MIN_ANGLE, Const.THROTTLE_NEEDLE_MAX_ANGLE);
-        updateThrottleText(throttleText, adjustedMotorSpeed);
-
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
-        // The smartPlaneService might not be available
-        if (smartplaneService == null) {
-            return;
-        }
-        smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
+        setRealMotorSpeed(smartplaneService);
     }
 
     private void updateThrottleText(final TextView throttleText, final float adjustedMotorSpeed) {
@@ -188,14 +178,23 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
             }
             planeState.setScaler(scaler);
 
-            // TODO factor that into a method
-            float adjustedMotorSpeed = planeState.getAdjustedMotorSpeed();
-            Util.rotateImageView(throttleNeedle, adjustedMotorSpeed,
-                    Const.THROTTLE_NEEDLE_MIN_ANGLE, Const.THROTTLE_NEEDLE_MAX_ANGLE);
-            updateThrottleText(throttleText, adjustedMotorSpeed);
-            if (smartplaneService != null) {
-                smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
-            }
+            setRealMotorSpeed(smartplaneService);
+        }
+    }
+
+    /**
+     * Called like that to differentiate with the "soft" {@link PlaneState#setMotorSpeed(float)},
+     * who does extra scaling, and who doesn;t actually transmit the value to the plane.
+     *
+     * @param smartplaneService
+     */
+    private void setRealMotorSpeed(BLESmartplaneService smartplaneService) {
+        float adjustedMotorSpeed = planeState.getAdjustedMotorSpeed();
+        Util.rotateImageView(throttleNeedle, adjustedMotorSpeed,
+                Const.THROTTLE_NEEDLE_MIN_ANGLE, Const.THROTTLE_NEEDLE_MAX_ANGLE);
+        updateThrottleText(throttleText, adjustedMotorSpeed);
+        if (smartplaneService != null) {
+            smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
         }
     }
 
