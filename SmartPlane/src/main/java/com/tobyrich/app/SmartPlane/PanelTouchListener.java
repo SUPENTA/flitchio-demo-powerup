@@ -117,6 +117,10 @@ public class PanelTouchListener implements FlitchioListener {
 
     @Override
     public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
+        if (((PlaneState) activity.getApplication()).screenLocked) {
+            return;
+        }
+
         // Our button pressure ranges in [min = 0.0; max = 1.0]
         float pressure = buttonEvent.getPressure();
 
