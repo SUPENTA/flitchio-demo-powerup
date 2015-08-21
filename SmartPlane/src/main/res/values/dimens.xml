@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="settings_vertical_margin_post_label">5dp</dimen>
+    <dimen name="settings_vertical_margin_pre_label">10dp</dimen>
+</resources>

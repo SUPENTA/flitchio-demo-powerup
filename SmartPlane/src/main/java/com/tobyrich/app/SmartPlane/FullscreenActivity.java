@@ -27,7 +27,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package com.tobyrich.app.SmartPlane;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -43,6 +42,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -75,7 +75,7 @@ import lib.smartlink.BluetoothDisabledException;
  * @date 17 Jul 2014
  */
 
-public class FullscreenActivity extends Activity {
+public class FullscreenActivity extends AppCompatActivity {
     private static final String TAG = "FullscreenActivity";
     @SuppressWarnings("FieldCanBeLocal")
     private static final int NUM_SCREENS = 3;
