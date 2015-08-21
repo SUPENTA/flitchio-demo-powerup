@@ -85,7 +85,6 @@ public class FullscreenActivity extends Activity {
     // sound played when the user presses the "Control Tower" button
     private MediaPlayer atcSound;
     private BluetoothDelegate bluetoothDelegate;  // bluetooth events
-    private SensorHandler sensorHandler;  // accelerometer & magnetometer
     private GestureDetector gestureDetector;  // touch events
     private PlaneState planeState;  // singleton with variables used app-wide
 
@@ -103,10 +102,6 @@ public class FullscreenActivity extends Activity {
         ViewTreeObserver viewTree = findViewById(R.id.controlPanel).getViewTreeObserver();
         viewTree.addOnGlobalLayoutListener(new GlobalLayoutListener(this));
 
-        if (sensorHandler != null) {
-            sensorHandler.registerListener();
-        }
-
         if (flitchioController != null && panelTouchListener != null) {
             flitchioController.onResume(panelTouchListener, new Handler());
         }
@@ -115,9 +110,6 @@ public class FullscreenActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (sensorHandler != null) {
-            sensorHandler.unregisterListener();
-        }
 
         if (flitchioController != null) {
             flitchioController.onPause();
@@ -224,8 +216,6 @@ public class FullscreenActivity extends Activity {
                     new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, Util.BT_REQUEST_CODE);
         }
-        sensorHandler = new SensorHandler(this, bluetoothDelegate);
-        sensorHandler.registerListener();
         gestureDetector = new GestureDetector(this,
                 new GestureListener(this, bluetoothDelegate));
         planeState = (PlaneState) getApplicationContext();
