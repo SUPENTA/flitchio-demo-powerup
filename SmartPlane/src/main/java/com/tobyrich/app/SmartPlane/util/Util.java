@@ -95,14 +95,29 @@ public class Util {
         activity.findViewById(R.id.tv_status_plane).post(new Runnable() {
             @Override
             public void run() {
-                TextView msgSearching = (TextView) activity.findViewById(R.id.tv_status_plane);
+                TextView tvPlaneStatus = (TextView) activity.findViewById(R.id.tv_status_plane);
 
                 if (isSearching) {
-                    msgSearching.setText(activity.getString(R.string.plane_status_searching));
+                    tvPlaneStatus.setText(activity.getString(R.string.plane_status_searching));
                     activity.findViewById(R.id.searchProgressBar).setVisibility(View.VISIBLE);
                 } else {
-                    msgSearching.setText(activity.getString(R.string.plane_status_connected));
+                    tvPlaneStatus.setText(activity.getString(R.string.plane_status_connected));
                     activity.findViewById(R.id.searchProgressBar).setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    public static void setFlitchioStatusConnected(final Activity activity, final boolean isConnected) {
+        activity.findViewById(R.id.tv_status_flitchio).post(new Runnable() {
+            @Override
+            public void run() {
+                TextView tvFlitchioStatus = (TextView) activity.findViewById(R.id.tv_status_flitchio);
+
+                if (isConnected) {
+                    tvFlitchioStatus.setText(activity.getString(R.string.flitchio_status_connected));
+                } else {
+                    tvFlitchioStatus.setText(activity.getString(R.string.flitchio_status_disconnected));
                 }
             }
         });

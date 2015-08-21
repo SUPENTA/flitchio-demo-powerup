@@ -157,7 +157,7 @@ public class PanelTouchListener implements View.OnTouchListener, FlitchioListene
     }
 
     @Override
-    public void onFlitchioStatusChanged(boolean b) {
-
+    public void onFlitchioStatusChanged(boolean isConnected) {
+        Util.setFlitchioStatusConnected(activity, isConnected);
     }
 }

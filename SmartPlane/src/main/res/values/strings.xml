@@ -47,10 +47,12 @@
     <string name="plane_status_searching">Searching&#8230;</string>
     <string name="plane_status_connecting">Connecting&#8230;</string>
     <string name="plane_status_connected">Connected</string>
+    <string name="flitchio_status_connected">Connected</string>
+    <string name="flitchio_status_disconnected">Disconnected</string>
     <string name="label_revRudder">Reverse Rudder</string>
     <string name="label_flightAssist">Flight Assist</string>
-    <string name="label_weatherCenter">Weather Center</string>
-    <string name="label_settings">Settings</string>
+    <string name="header_weather_center">Weather Center</string>
+    <string name="header_settings">Settings</string>
     <string name="label_tower">ATC Tower</string>
 
     <!-- Checklist items -->
@@ -74,6 +76,7 @@
     Check LED\n
     </string>
     <string name="flitchio_create_error">Your version of Flitchio Manager is too old. Please update it.</string>
+    <string name="header_status">Status</string>
 
 
 </resources>

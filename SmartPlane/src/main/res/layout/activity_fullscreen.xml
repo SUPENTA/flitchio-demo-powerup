@@ -68,7 +68,7 @@
             android:layout_marginBottom="28dp"
             android:layout_marginTop="@dimen/settings_vertical_margin_pre_label"
             android:gravity="center"
-            android:text="Status"
+            android:text="@string/header_status"
             android:textAppearance="?android:textAppearanceLarge" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/ic_flitchio"
             android:gravity="center"
-            android:text="Connected"
+            android:text="@string/flitchio_status_disconnected"
             app:layout_widthPercent="50%" />
 
         <TextView
@@ -89,7 +89,7 @@
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/ic_plane"
             android:gravity="center"
-            android:text="Connected"
+            android:text="@string/plane_status_searching"
             app:layout_widthPercent="50%" />
 
         <ProgressBar
