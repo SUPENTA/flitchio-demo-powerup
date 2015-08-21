@@ -237,6 +237,15 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
+        MediaPlayer.create(this, R.raw.atc_sounds1).setOnPreparedListener(
+                new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        atcSound = mp;
+                    }
+                });
+
+
         panelTouchListener = new PanelTouchListener(this, bluetoothDelegate);
         if (flitchioController != null) {
             flitchioController.onResume(panelTouchListener, new Handler());
@@ -316,8 +325,6 @@ public class FullscreenActivity extends AppCompatActivity {
         boolean enableFlAssist = buttonConfig.getBoolean("flAssist",
                 Const.DEFAULT_FLIGHT_ASSIST);
         flAssistSwitch.setChecked(enableFlAssist);
-
-        atcSound = MediaPlayer.create(this, R.raw.atc_sounds1);
 
         final Switch towerSwitch = (Switch) findViewById(R.id.towerSwitch);
         towerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
