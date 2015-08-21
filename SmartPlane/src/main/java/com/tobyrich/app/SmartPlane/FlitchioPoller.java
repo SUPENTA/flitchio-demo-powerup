@@ -80,9 +80,9 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
 
             if (flitchioController != null && flitchioController.isConnected()) {
                 FlitchioSnapshot snap = flitchioController.obtainSnapshot();
-                final float pressure = snap.getButtonPressure(InputElement.BUTTON_TOP);
 
-                processEvent(pressure);
+                processButtonPressure(snap.getButtonPressure(InputElement.BUTTON_TOP));
+                processJoystickX(snap.getJoystickX(InputElement.JOYSTICK_BOTTOM));
             }
 
             try {
@@ -93,7 +93,7 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         }
     }
 
-    public void processEvent(final float pressure) {
+    public void processButtonPressure(final float pressure) {
         // Our button pressure ranges in [min = 0.0; max = 1.0]
         // But the app expects another range, and inverse: [min = maxCursorRange; max = 0]
         final float throttleValue = (1f - pressure) * maxCursorRange;
@@ -153,12 +153,59 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         });
     }
 
+    /**
+     * This method's logic (the communication with the Bluetooth service) comes from former
+     * SensorHandler. We have removed the whole class since we Flitchio instead of accelerometer.
+     *
+     * @param joystickX
+     */
+    public void processJoystickX(float joystickX) {
+        // We get x in [-1;1]
+        // smartplaneService.setRudder expects a value in [-126;126]
+        // Not sure yet what flight assist is, it seems to boost the value
+
+        int scaleFactor = planeState.isFlAssistEnabled() ? 126 : 63;
+        short newRudder = (short) (scaleFactor * joystickX);
+
+        @SuppressWarnings("SpellCheckingInspection")
+        BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
+        if (smartplaneService != null) {
+            smartplaneService.setRudder(
+                    (short) (planeState.rudderReversed ? -newRudder : newRudder)
+            );
+        }
+
+        // TODO change something in the horizon view
+
+        // Increase throttle when turning if flight assist is enabled
+        if (planeState.isFlAssistEnabled() && !planeState.screenLocked) {
+            // TODO dunno what scaler should be exactly
+            // double scaler = 1 - Math.cos(rollAngle * Math.PI / 2 / Const.MAX_ROLL_ANGLE);
+            double scaler = Math.abs(joystickX);
+
+            if (scaler > 0.3) {
+                scaler = 0.3;
+            }
+            planeState.setScaler(scaler);
+
+            // TODO factor that into a method
+            float adjustedMotorSpeed = planeState.getAdjustedMotorSpeed();
+            Util.rotateImageView(throttleNeedle, adjustedMotorSpeed,
+                    Const.THROTTLE_NEEDLE_MIN_ANGLE, Const.THROTTLE_NEEDLE_MAX_ANGLE);
+            updateThrottleText(throttleText, adjustedMotorSpeed);
+            if (smartplaneService != null) {
+                smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
+            }
+        }
+    }
+
     @Override
     public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
     }
 
     @Override
     public void onFlitchioJoystickEvent(InputElement.Joystick joystick, JoystickEvent joystickEvent) {
+
     }
 
     @Override
