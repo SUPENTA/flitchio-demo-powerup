@@ -142,7 +142,7 @@ public class BluetoothDelegate
     public void didStartService(BluetoothDevice device, String serviceName, BLEService service) {
         Log.i(TAG, "did start service: " + service.toString());
         // We are no longer "searching" for the device
-        Util.showSearching(activity, false);
+        Util.setPlaneStatusSearching(activity, false);
         Util.inform(activity, "Pull Up to Start the Motor");
 
         if (serviceName.equalsIgnoreCase("powerup") ||
@@ -196,7 +196,7 @@ public class BluetoothDelegate
     @Override
     public void didStartScanning(BluetoothDevice device) {
         Log.i(TAG, "started scanning");
-        Util.showSearching(activity, true);
+        Util.setPlaneStatusSearching(activity, true);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class BluetoothDelegate
                 ((TextView) activity.findViewById(R.id.hardwareInfoData)).setText(hardwareDataInfo);
             }
         });
-        Util.showSearching(activity, true);
+        Util.setPlaneStatusSearching(activity, true);
     }
 
 }

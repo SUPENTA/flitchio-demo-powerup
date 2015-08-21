@@ -111,9 +111,8 @@ public class UIChangers {
 
         @Override
         public void run() {
-            TextView txtSeaching = (TextView) activity.findViewById(R.id.txtSearching);
-            String txtConnecting = activity.getString(R.string.label_connecting);
-            txtSeaching.setText(txtConnecting);
+            TextView txtSeaching = (TextView) activity.findViewById(R.id.tv_status_plane);
+            txtSeaching.setText(activity.getString(R.string.plane_status_connecting));
         }
     }
 }

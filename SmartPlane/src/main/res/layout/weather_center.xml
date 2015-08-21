@@ -16,7 +16,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:text="@string/label_weatherCenter"
-            android:textSize="30sp" />
+            android:textAppearance="?android:textAppearanceLarge" />
 
         <TextView
             android:id="@+id/weather_data"
@@ -42,7 +42,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.15"
         android:scaleType="fitXY"
-        android:src="@drawable/crt_background"
-        android:alpha="0.15"/>
+        android:src="@drawable/crt_background" />
 </FrameLayout>

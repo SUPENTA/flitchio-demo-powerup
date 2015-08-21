@@ -48,24 +48,6 @@
             android:contentDescription="@string/desc_runway"
             android:src="@drawable/runaway_lines" />
 
-        <TextView
-            android:id="@+id/txtSearching"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/label_searching"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#2b2b2b"
-            android:textSize="30sp" />
-
-        <ProgressBar
-            android:id="@+id/searchProgressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="70dp" />
-
         <ImageView
             android:id="@+id/socialShare"
             android:layout_width="40dp"

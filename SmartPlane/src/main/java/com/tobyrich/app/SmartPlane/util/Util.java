@@ -61,8 +61,8 @@ public class Util {
 
     /**
      * @param activity the activity where we want to show the toast
-     * @param message the message that will be displayed
-     *                Display a toast to the user.
+     * @param message  the message that will be displayed
+     *                 Display a toast to the user.
      */
     public static void inform(final Activity activity, final String message) {
         activity.runOnUiThread(new Runnable() {
@@ -89,19 +89,21 @@ public class Util {
     /**
      * @param activity the activity where we want to show the message
      * @param show     true if we want to show the message, false if we want to hide it
-     * @brief          Displays or hide a message indicating that the app is searching for a bluetooth device
+     * @brief Displays or hide a message indicating that the app is searching for a bluetooth device
      */
-    public static void showSearching(final Activity activity, boolean show) {
-        final int visibility = show ? View.VISIBLE : View.GONE;
-        activity.findViewById(R.id.txtSearching).post(new Runnable() {
+    public static void setPlaneStatusSearching(final Activity activity, final boolean isSearching) {
+        activity.findViewById(R.id.tv_status_plane).post(new Runnable() {
             @Override
             public void run() {
-                TextView msgSearching = (TextView) activity.findViewById(R.id.txtSearching);
-                final String defaultSearchingMsg = activity.getString(R.string.label_searching);
-                msgSearching.setText(defaultSearchingMsg);
-                msgSearching.setVisibility(visibility);
+                TextView msgSearching = (TextView) activity.findViewById(R.id.tv_status_plane);
 
-                activity.findViewById(R.id.searchProgressBar).setVisibility(visibility);
+                if (isSearching) {
+                    msgSearching.setText(activity.getString(R.string.plane_status_searching));
+                    activity.findViewById(R.id.searchProgressBar).setVisibility(View.VISIBLE);
+                } else {
+                    msgSearching.setText(activity.getString(R.string.plane_status_connected));
+                    activity.findViewById(R.id.searchProgressBar).setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -166,10 +168,10 @@ public class Util {
             StringBuilder buffer = new StringBuilder();
             int nrRead;
             char[] readChars = new char[1024];
-            while((nrRead = reader.read(readChars)) != -1) {
+            while ((nrRead = reader.read(readChars)) != -1) {
                 buffer.append(readChars, 0, nrRead);
             }
-            return  buffer.toString();
+            return buffer.toString();
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
