@@ -49,7 +49,7 @@
             android:src="@drawable/cover" />
     </FrameLayout>
 
-    <RelativeLayout
+    <android.support.percent.PercentRelativeLayout
         android:id="@+id/controlPanel"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -67,207 +67,213 @@
             android:scaleType="centerCrop"
             android:src="@drawable/panel_640x342" />
 
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/layout_panel_battery_hdg"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:layout_heightPercent="34%"
+            app:layout_marginTopPercent="2%"
+            app:layout_widthPercent="32%">
 
-        <ImageView
-            android:id="@+id/imgThrottleNeedle"
-            android:layout_width="150dp"
-            android:layout_height="95dp"
+            <TextView
+                android:id="@+id/textBattery"
+                style="@style/ControlPanelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/label_battery"
+                app:layout_marginTopPercent="2%" />
+
+            <TextView
+                android:id="@+id/batteryStatus"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textBattery"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/not_available"
+                app:layout_marginTopPercent="1%" />
+
+            <TextView
+                android:id="@+id/textHDG"
+                style="@style/ControlPanelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/label_compass"
+                app:layout_marginBottomPercent="8%"
+                app:layout_marginLeftPercent="4%" />
+
+
+            <TextView
+                android:id="@+id/hdgValue"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/textHDG"
+                android:layout_toEndOf="@id/textHDG"
+                android:text="@string/not_available"
+                app:layout_marginLeftPercent="12%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/layout_panel_throttle"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="14dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/desc_throttleNeedle"
-            android:rotation="-140"
-            android:src="@drawable/needle_right_circle_up" />
+            app:layout_heightPercent="57%"
+            app:layout_marginBottomPercent="5%"
+            app:layout_widthPercent="33%">
 
-        <ImageView
-            android:id="@+id/imgFuelNeedle"
-            android:layout_width="105dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/imgThrottleNeedle"
-            android:layout_marginBottom="-38dp"
-            android:layout_marginLeft="70dp"
-            android:layout_toRightOf="@id/imgThrottleNeedle"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/desc_fuelNeedle"
-            android:rotation="-90"
-            android:src="@drawable/needle_right_circle_up" />
+            <ImageView
+                android:id="@+id/imgThrottleNeedle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/desc_throttleNeedle"
+                android:rotation="-140"
+                android:src="@drawable/needle_right_circle_up" />
 
-        <ImageView
-            android:id="@+id/imgSignalNeedle"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_alignBottom="@id/imgThrottleNeedle"
-            android:layout_alignEnd="@id/imgFuelNeedle"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="2dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/desc_signalNeedle"
-            android:rotation="0"
-            android:src="@drawable/needle_right_circle_up" />
+            <TextView
+                android:id="@+id/throttleValue"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:text="@string/zero_percent"
+                app:layout_marginBottomPercent="11%"
+                app:layout_marginRightPercent="18%" />
+        </android.support.percent.PercentRelativeLayout>
 
-        <TextView
-            android:id="@+id/throttleValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgSignalNeedle"
-            android:layout_alignEnd="@id/imgThrottleNeedle"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="53dp"
-            android:text="@string/zero_percent"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold|normal" />
-
-        <TextView
-            android:id="@+id/signalValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/throttleValue"
-            android:layout_alignStart="@id/imgSignalNeedle"
-            android:layout_marginBottom="-1.5dp"
-            android:layout_marginLeft="1dp"
-            android:singleLine="false"
-            android:text="@string/minus_infinity"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold|normal" />
-
-        <TextView
-            android:id="@+id/textSignal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgFuelNeedle"
-            android:layout_alignEnd="@id/signalValue"
-            android:layout_marginRight="-4dp"
-            android:text="@string/label_signal"
-            android:textColor="#BBCC00"
-            android:textSize="12sp"
-            android:textStyle="bold|normal"
-            android:typeface="sans" />
-
-        <TextView
-            android:id="@+id/batteryLevelText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/imgSignalNeedle"
-            android:layout_alignStart="@id/signalValue"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:singleLine="false"
-            android:text="@string/not_available"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold|normal" />
-
-        <TextView
-            android:id="@+id/textDBM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/imgSignalNeedle"
-            android:layout_alignStart="@id/textSignal"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="18dp"
-            android:text="@string/label_signalStrength"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textFuel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/imgFuelNeedle"
-            android:layout_alignStart="@id/imgSignalNeedle"
-            android:layout_marginLeft="10dp"
-            android:text="@string/label_fuel"
-            android:textColor="#BBCC00"
-            android:textSize="12sp"
-            android:textStyle="bold|normal"
-            android:typeface="sans" />
-
-        <TextView
-            android:id="@+id/textBattery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/textFuel"
-            android:layout_alignStart="@id/imgThrottleNeedle"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="6dp"
-            android:text="@string/label_battery"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#BBCC00"
-            android:textSize="12sp"
-            android:textStyle="bold|normal"
-            android:typeface="sans" />
-
-        <TextView
-            android:id="@+id/textHDG"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/textBattery"
-            android:layout_alignTop="@id/imgFuelNeedle"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/label_compass"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#BBCC00"
-            android:textSize="12sp"
-            android:textStyle="bold|normal" />
-
-        <ImageView
-            android:id="@+id/lockThrottle"
-            android:layout_width="200dp"
-            android:layout_height="145dp"
-            android:layout_alignBottom="@id/textDBM"
-            android:layout_alignEnd="@id/textFuel"
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/layout_panel_fuel"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="-10dp"
-            android:layout_toRightOf="@id/textBattery"
-            android:contentDescription="@string/desc_throttleLock"
-            android:src="@drawable/throttle_locked"
-            android:visibility="invisible" />
+            app:layout_heightPercent="61%"
+            app:layout_marginBottomPercent="5%"
+            app:layout_marginTopPercent="2%"
+            app:layout_widthPercent="34%">
 
-        <ImageView
-            android:id="@+id/throttleCursor"
+            <TextView
+                android:id="@+id/textFuel"
+                style="@style/ControlPanelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/label_fuel"
+                app:layout_marginTopPercent="2%" />
+
+            <ImageView
+                android:id="@+id/imgFuelNeedle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/desc_fuelNeedle"
+                android:rotation="-90"
+                android:src="@drawable/needle_right_circle_up" />
+
+            <TextView
+                android:id="@+id/batteryLevelText"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/not_available"
+                app:layout_marginBottomPercent="16%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/layout_panel_signal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            app:layout_heightPercent="40%"
+            app:layout_marginBottomPercent="5%"
+            app:layout_marginTopPercent="2%"
+            app:layout_widthPercent="34%">
+
+
+            <TextView
+                android:id="@+id/textSignal"
+                style="@style/ControlPanelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_signal"
+                app:layout_marginLeftPercent="10%"
+                app:layout_marginTopPercent="5%" />
+
+            <TextView
+                android:id="@+id/signalValue"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/minus_infinity"
+                app:layout_marginLeftPercent="26%" />
+
+            <TextView
+                android:id="@+id/textDBM"
+                style="@style/ControlPanelValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/signalValue"
+                android:layout_below="@id/signalValue"
+                android:text="@string/label_signalStrength"
+                android:textStyle="normal"
+                app:layout_marginTopPercent="7%" />
+
+
+            <ImageView
+                android:id="@+id/imgSignalNeedle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/desc_signalNeedle"
+                android:rotation="0"
+                android:src="@drawable/needle_right_circle_up"
+                app:layout_marginTopPercent="6%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:id="@+id/layout_panel_cursor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@id/textSignal"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="40dp"
-            android:layout_toLeftOf="@id/textSignal"
-            android:adjustViewBounds="true"
-            android:baselineAlignBottom="false"
-            android:contentDescription="@string/desc_throttleSlider"
-            android:longClickable="false"
-            android:paddingLeft="20dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/throttle_slider" />
+            app:layout_marginBottomPercent="5%"
+            app:layout_marginLeftPercent="46%"
+            app:layout_marginRightPercent="40%"
+            app:layout_marginTopPercent="2%">
 
-        <TextView
-            android:id="@+id/batteryStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/throttleValue"
-            android:layout_below="@id/textBattery"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="-5dp"
-            android:text="@string/not_available"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="13sp"
-            android:textStyle="bold|normal" />
+            <ImageView
+                android:id="@+id/lockThrottle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/desc_throttleLock"
+                android:scaleType="fitXY"
+                android:src="@drawable/throttle_locked"
+                android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/hdgValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/textBattery"
-            android:layout_alignTop="@id/textHDG"
-            android:layout_marginRight="-12dp"
-            android:layout_marginTop="6dp"
-            android:text="@string/not_available"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold|normal" />
-
-    </RelativeLayout>
-
+            <ImageView
+                android:id="@+id/throttleCursor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@id/textSignal"
+                android:contentDescription="@string/desc_throttleSlider"
+                android:longClickable="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/throttle_slider" />
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 </android.support.percent.PercentRelativeLayout>

@@ -20,4 +20,18 @@
 
     <style name="ButtonBarButton" />
 
+    <style name="ControlPanelLabel">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">#BBCC00</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold|normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="ControlPanelValue">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold|normal</item>
+    </style>
+
 </resources>
