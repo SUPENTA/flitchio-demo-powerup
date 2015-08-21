@@ -28,8 +28,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.tobyrich.app.SmartPlane;
 
 import android.app.Activity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,7 +47,7 @@ import lib.smartlink.driver.BLESmartplaneService;
  * Refactored by: Radu Hambasan
  */
 
-public class PanelTouchListener implements View.OnTouchListener, FlitchioListener {
+public class PanelTouchListener implements FlitchioListener {
     ImageView slider;
     ImageView throttleNeedle;
     TextView throttleText;
@@ -70,20 +68,12 @@ public class PanelTouchListener implements View.OnTouchListener, FlitchioListene
 
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if ((event.getAction() != MotionEvent.ACTION_MOVE) &&
-                (event.getAction() != MotionEvent.ACTION_DOWN)) {
-            // digest the event
-            return true;
-        }
-
+    public void processEvent(final float throttleValue) {
         /* If uninitialized, initialize maxCursorRange */
         if (maxCursorRange == -1) {
             float panelHeight = activity.findViewById(R.id.imgPanel).getHeight();
             maxCursorRange = panelHeight * Const.SCALE_FOR_CURSOR_RANGE;
         }
-        final float eventYValue = event.getY();
 
         /* Note: The coordinate system of the screen has the following properties:
          * (0,0) is in the upper-left corner.
@@ -92,19 +82,19 @@ public class PanelTouchListener implements View.OnTouchListener, FlitchioListene
 
         float motorSpeed;
         /* check if the touch event went outside the bottom of the panel */
-        if (eventYValue >= maxCursorRange) {
+        if (throttleValue >= maxCursorRange) {
             slider.setY(maxCursorRange);
             motorSpeed = 0;
         /* check if the slider tries to go above the control panel height */
-        } else if (eventYValue <= 0) {
+        } else if (throttleValue <= 0) {
             /* 0 corresponds to the max position, because the slider cannot go outside the
              * containing relative layout (the control panel)
              */
             slider.setY(0);
             motorSpeed = 1; // 100% throttle
         } else {
-            slider.setY(eventYValue);
-            motorSpeed = 1 - (eventYValue / maxCursorRange);
+            slider.setY(throttleValue);
+            motorSpeed = 1 - (throttleValue / maxCursorRange);
         }
 
         // Adjust if flight assist is on is NOT needed in PowerUp
@@ -120,10 +110,9 @@ public class PanelTouchListener implements View.OnTouchListener, FlitchioListene
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
         // The smartPlaneService might not be available
         if (smartplaneService == null) {
-            return true;
+            return;
         }
         smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
-        return true; // the event was digested, keep listening for touch events
     }
 
     @Override
@@ -135,19 +124,7 @@ public class PanelTouchListener implements View.OnTouchListener, FlitchioListene
         pressure = (1f - pressure) * maxCursorRange;
 
         if (button == InputElement.BUTTON_TOP) {
-            MotionEvent fakeEvent = MotionEvent.obtain(
-                    0 /* downTime */,
-                    0 /* eventTime */,
-                    MotionEvent.ACTION_MOVE /* action */,
-                    0 /* x: is not read anyway */,
-                    pressure /* y */,
-                    0 /* metaState */
-            );
-
-            onTouch(
-                    null /* v */,
-                    fakeEvent
-            );
+            processEvent(pressure);
         }
     }
 

@@ -251,9 +251,6 @@ public class FullscreenActivity extends AppCompatActivity {
             flitchioController.onResume(panelTouchListener, new Handler());
         }
 
-        ImageView controlPanel = (ImageView) findViewById(R.id.imgPanel);
-        controlPanel.setOnTouchListener(panelTouchListener);
-
         final ImageView checklist_vw = (ImageView) findViewById(R.id.checklist);
         checklist_vw.setOnClickListener(new View.OnClickListener() {
             @Override
