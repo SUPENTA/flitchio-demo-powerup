@@ -54,7 +54,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.supenta.flitchio.demo.powerup.util.Const;
 import com.supenta.flitchio.demo.powerup.util.MeteoTask;
@@ -133,14 +132,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
         buttonConfig = this.getSharedPreferences("button_config", MODE_PRIVATE);
 
-        flitchioController = FlitchioController.getInstance(this);
-        try {
-            flitchioController.onCreate();
-        } catch (FlitchioManagerDependencyException e) {
-            Toast.makeText(this, getString(R.string.flitchio_create_error), Toast.LENGTH_LONG).show();
-            flitchioController = null;
-        }
-
         if (!Once.beenDone(Once.THIS_APP_VERSION, TUTORIAL_TAG)) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_tutorial_title)
@@ -148,6 +139,26 @@ public class FullscreenActivity extends AppCompatActivity {
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
             Once.markDone(TUTORIAL_TAG);
+        }
+
+        flitchioController = FlitchioController.getInstance(this);
+        try {
+            flitchioController.onCreate();
+        } catch (FlitchioManagerDependencyException e) {
+            //Toast.makeText(this, getString(R.string.flitchio_create_error), Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_error_title)
+                    .setMessage(R.string.dialog_error_message)
+                    .setPositiveButton(R.string.open_play_store, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(FlitchioController.getPlayStoreIntentForFlitchioManager());
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+            flitchioController = null;
         }
     }
 

@@ -75,7 +75,8 @@
     Plug in cable\n
     Check LED\n
     </string>
-    <string name="flitchio_create_error">This app needs the Flitchio Manager app. Please install the latest version.</string>
+    <string name="dialog_error_title">Error</string>
+    <string name="dialog_error_message">This app needs the Flitchio Manager app. Please install the latest version.</string>
     <string name="header_status">Status</string>
     <string name="dialog_tutorial_message">
         This app uses Flitchio instead of accelerometer/touch for improved control!\n
@@ -86,6 +87,7 @@
         Enjoy!
     </string>
     <string name="dialog_tutorial_title">Tutorial</string>
+    <string name="open_play_store">Open Play Store</string>
 
 
 </resources>
