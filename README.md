@@ -1,6 +1,10 @@
 Flitchio PowerUp Controller
 ===========================
 
+![Project logo](project_logo.png)
+
+By [SUPENTA](https://supenta.com/).
+
 **This is the official app to control the Tailor Toys PowerUp "paper airplane" with Flitchio**.
 
 It is directly forked from their official app [TailorToys/app-powerup-android][powerup-repo],
