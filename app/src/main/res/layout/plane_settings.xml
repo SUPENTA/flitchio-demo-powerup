@@ -148,5 +148,12 @@
             android:layout_below="@id/softwareInfoData"
             android:layout_toRightOf="@id/imgInfo"
             android:text="@string/info_hardwareData" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flitchio_logo"
+            android:layout_toRightOf="@id/imgInfo"
+            android:layout_below="@id/hardwareInfoData"/>
     </RelativeLayout>
 </RelativeLayout>

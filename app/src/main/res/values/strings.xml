@@ -2,12 +2,12 @@
 <resources>
 
     <!-- Constants -->
-    <string name="app_name">PowerUp</string>
+    <string name="app_name">Flitchio PowerUp Controller</string>
     <string name="minus_infinity">-\u221E</string>
     <string name="horizon_limit">I am the last thing in horizon</string>
     <string name="not_available">N/A</string>
     <string name="zero_percent">0%</string>
-    <string name="social_share_message">I flew #powerup3 and it was awesome!</string>
+    <string name="social_share_message">I flew #powerup3 with #Flitchio and it was awesome!</string>
     <string name="shareWithPictureMessage">Share PowerUp 3.0 with friends</string>
     <string name="shareWithPictureYes">Add photo</string>
     <string name="shareWithPictureNo">Just text</string>
@@ -75,8 +75,17 @@
     Plug in cable\n
     Check LED\n
     </string>
-    <string name="flitchio_create_error">Your version of Flitchio Manager is too old. Please update it.</string>
+    <string name="flitchio_create_error">This app needs the Flitchio Manager app. Please install the latest version.</string>
     <string name="header_status">Status</string>
+    <string name="dialog_tutorial_message">
+        This app uses Flitchio instead of accelerometer/touch for improved control!\n
+        \n
+        Use the left joystick for the rudder.\n
+        Use the right button for the throttle.\n
+        \n
+        Enjoy!
+    </string>
+    <string name="dialog_tutorial_title">Tutorial</string>
 
 
 </resources>

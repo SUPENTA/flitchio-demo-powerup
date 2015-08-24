@@ -1,4 +1,4 @@
-PowerUp Flitchio Controller
+Flitchio PowerUp Controller
 ===========================
 
 **This is the official app to control the Tailor Toys PowerUp "paper airplane" with Flitchio**.

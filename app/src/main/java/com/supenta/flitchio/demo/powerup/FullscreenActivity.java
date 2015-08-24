@@ -63,6 +63,7 @@ import com.supenta.flitchio.sdk.FlitchioController;
 import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import jonathanfinerty.once.Once;
 import lib.smartlink.BluetoothDisabledException;
 
 /**
@@ -75,21 +76,18 @@ import lib.smartlink.BluetoothDisabledException;
  */
 
 public class FullscreenActivity extends AppCompatActivity {
+    public static final String TUTORIAL_TAG = "showTutorial";
     private static final String TAG = "FullscreenActivity";
     @SuppressWarnings("FieldCanBeLocal")
     private static final int NUM_SCREENS = 3;
-
     private boolean[] initializedScreen = {false, false, false};
-
     // sound played when the user presses the "Control Tower" button
     private MediaPlayer atcSound;
     private BluetoothDelegate bluetoothDelegate;  // bluetooth events
     private GestureDetector gestureDetector;  // touch events
     private PlaneState planeState;  // singleton with variables used app-wide
-
     private AudioManager audioManager;
     private SharedPreferences buttonConfig;  // cached button configuration
-
     private FlitchioController flitchioController;
     private FlitchioPoller flitchioPoller;
 
@@ -141,6 +139,15 @@ public class FullscreenActivity extends AppCompatActivity {
         } catch (FlitchioManagerDependencyException e) {
             Toast.makeText(this, getString(R.string.flitchio_create_error), Toast.LENGTH_LONG).show();
             flitchioController = null;
+        }
+
+        if (!Once.beenDone(Once.THIS_APP_VERSION, TUTORIAL_TAG)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.dialog_tutorial_title)
+                    .setMessage(R.string.dialog_tutorial_message)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+            Once.markDone(TUTORIAL_TAG);
         }
     }
 

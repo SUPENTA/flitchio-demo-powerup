@@ -21,6 +21,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.0'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:percent:23.0.0'
+    compile 'com.jonathanfinerty.once:once:0.3.2'
     compile project(':indicator-library')
     compile files('libs/dd-plist.jar')
     compile files('libs/LibSmartlink.jar')
