@@ -111,6 +111,9 @@ public class FullscreenActivity extends AppCompatActivity {
         if (flitchioController != null) {
             flitchioController.onPause();
         }
+        if (flitchioPoller != null) {
+            flitchioPoller.interrupt();
+        }
     }
 
     @Override
