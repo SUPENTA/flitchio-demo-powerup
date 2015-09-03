@@ -113,17 +113,17 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         float motorSpeed;
         /* check if the touch event went outside the bottom of the panel */
         if (throttleValue >= maxCursorRange) {
-            slider.setY(maxCursorRange);
+            updateSliderY(maxCursorRange);
             motorSpeed = 0;
         /* check if the slider tries to go above the control panel height */
         } else if (throttleValue <= 0) {
             /* 0 corresponds to the max position, because the slider cannot go outside the
              * containing relative layout (the control panel)
              */
-            slider.setY(0);
+            updateSliderY(0);
             motorSpeed = 1; // 100% throttle
         } else {
-            slider.setY(throttleValue);
+            updateSliderY(throttleValue);
             motorSpeed = 1 - (throttleValue / maxCursorRange);
         }
 
@@ -133,6 +133,15 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         planeState.setMotorSpeed(motorSpeed);
         BLESmartplaneService smartplaneService = bluetoothDelegate.getSmartplaneService();
         setRealMotorSpeed(smartplaneService);
+    }
+
+    private void updateSliderY(final float y) {
+        slider.post(new Runnable() {
+            @Override
+            public void run() {
+                slider.setY(y);
+            }
+        });
     }
 
     private void updateThrottleText(final TextView throttleText, final float adjustedMotorSpeed) {
