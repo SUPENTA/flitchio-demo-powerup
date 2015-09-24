@@ -33,12 +33,10 @@ import android.widget.TextView;
 
 import com.supenta.flitchio.demo.powerup.util.Const;
 import com.supenta.flitchio.demo.powerup.util.Util;
-import com.supenta.flitchio.sdk.ButtonEvent;
 import com.supenta.flitchio.sdk.FlitchioController;
-import com.supenta.flitchio.sdk.FlitchioListener;
 import com.supenta.flitchio.sdk.FlitchioSnapshot;
+import com.supenta.flitchio.sdk.FlitchioStatusListener;
 import com.supenta.flitchio.sdk.InputElement;
-import com.supenta.flitchio.sdk.JoystickEvent;
 
 import lib.smartlink.driver.BLESmartplaneService;
 
@@ -46,7 +44,7 @@ import lib.smartlink.driver.BLESmartplaneService;
  * Acts as a mix of both polling mode (to get the data as fast as possible) and listening mode
  * (to get update about the connection status)
  */
-public class FlitchioPoller extends Thread implements FlitchioListener {
+public class FlitchioPoller extends Thread implements FlitchioStatusListener {
     private static final long SLEEP_TIME_MS = 25;
 
     ImageView slider;
@@ -211,15 +209,6 @@ public class FlitchioPoller extends Thread implements FlitchioListener {
         if (smartplaneService != null) {
             smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
         }
-    }
-
-    @Override
-    public void onFlitchioButtonEvent(InputElement.Button button, ButtonEvent buttonEvent) {
-    }
-
-    @Override
-    public void onFlitchioJoystickEvent(InputElement.Joystick joystick, JoystickEvent joystickEvent) {
-
     }
 
     @Override

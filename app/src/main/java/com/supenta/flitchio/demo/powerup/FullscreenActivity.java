@@ -100,7 +100,7 @@ public class FullscreenActivity extends AppCompatActivity {
         viewTree.addOnGlobalLayoutListener(new GlobalLayoutListener(this));
 
         if (flitchioController != null && flitchioPoller != null) {
-            flitchioController.onResume(flitchioPoller, new Handler());
+            flitchioController.onResume(flitchioPoller, null, new Handler());
         }
     }
 
@@ -271,7 +271,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         if (flitchioController != null) {
             flitchioPoller = new FlitchioPoller(this, flitchioController, bluetoothDelegate);
-            flitchioController.onResume(flitchioPoller, new Handler());
+            flitchioController.onResume(flitchioPoller, null, new Handler());
         }
 
         final ImageView checklist_vw = (ImageView) findViewById(R.id.checklist);
