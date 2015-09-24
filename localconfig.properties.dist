@@ -1,0 +1,8 @@
+# BASE FILE FOR LOCAL CONFIGURATION
+# We don't use local.properties because Android Studio messes with it
+# Modify these values according to your local configuration and save it without ".dist"
+
+keystore.path=/path/to/your/keystore
+keystore.storePassword=theStorePassword
+keystore.alias=theKeyAlias
+keystore.keyPassword=theKeyPassword
