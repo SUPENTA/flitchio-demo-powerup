@@ -3,30 +3,15 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion '23.0.0'
-
     defaultConfig {
         minSdkVersion 18
         versionCode 102
         versionName '0.1.2'
     }
-
-    signingConfigs {
-        supenta {
-            def localProperties = new Properties()
-            localProperties.load(project.rootProject.file('localconfig.properties').newDataInputStream())
-
-            keyAlias localProperties."keystore.alias"
-            keyPassword localProperties."keystore.keyPassword"
-            storeFile file(localProperties."keystore.path")
-            storePassword localProperties."keystore.storePassword"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.supenta
         }
     }
 }
