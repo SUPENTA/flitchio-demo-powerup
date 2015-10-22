@@ -37,6 +37,7 @@ import com.supenta.flitchio.sdk.FlitchioController;
 import com.supenta.flitchio.sdk.FlitchioSnapshot;
 import com.supenta.flitchio.sdk.FlitchioStatusListener;
 import com.supenta.flitchio.sdk.InputElement;
+import com.supenta.flitchio.sdk.Status;
 
 import lib.smartlink.driver.BLESmartplaneService;
 
@@ -44,7 +45,7 @@ import lib.smartlink.driver.BLESmartplaneService;
  * Acts as a mix of both polling mode (to get the data as fast as possible) and listening mode
  * (to get update about the connection status)
  */
-public class FlitchioPoller extends Thread implements FlitchioStatusListener {
+public class FlitchioPoller extends Thread {
     private static final long SLEEP_TIME_MS = 25;
 
     ImageView slider;
@@ -77,7 +78,7 @@ public class FlitchioPoller extends Thread implements FlitchioStatusListener {
                 return;
             }
 
-            if (flitchioController != null && flitchioController.isConnected()) {
+            if (flitchioController != null && flitchioController.getStatus().code == Status.CONNECTED) {
                 FlitchioSnapshot snap = flitchioController.obtainSnapshot();
 
                 processButtonPressure(snap.getButtonPressure(InputElement.BUTTON_TOP));
@@ -208,17 +209,6 @@ public class FlitchioPoller extends Thread implements FlitchioStatusListener {
         updateThrottleText(throttleText, adjustedMotorSpeed);
         if (smartplaneService != null) {
             smartplaneService.setMotor((short) (adjustedMotorSpeed * Const.MAX_MOTOR_SPEED));
-        }
-    }
-
-    @Override
-    public void onFlitchioStatusChanged(boolean isConnected) {
-        Util.setFlitchioStatusConnected(activity, isConnected);
-
-        if (isConnected && !isAlive()) {
-            start(); // problem if we start it several times?
-        } else if (!isConnected) {
-            interrupt();
         }
     }
 }

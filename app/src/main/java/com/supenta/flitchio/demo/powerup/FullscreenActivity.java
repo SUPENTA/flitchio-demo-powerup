@@ -39,7 +39,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -60,7 +59,8 @@ import com.supenta.flitchio.demo.powerup.util.Const;
 import com.supenta.flitchio.demo.powerup.util.MeteoTask;
 import com.supenta.flitchio.demo.powerup.util.Util;
 import com.supenta.flitchio.sdk.FlitchioController;
-import com.supenta.flitchio.sdk.FlitchioManagerDependencyException;
+import com.supenta.flitchio.sdk.FlitchioStatusListener;
+import com.supenta.flitchio.sdk.Status;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import jonathanfinerty.once.Once;
@@ -99,8 +99,8 @@ public class FullscreenActivity extends AppCompatActivity {
         ViewTreeObserver viewTree = findViewById(R.id.controlPanel).getViewTreeObserver();
         viewTree.addOnGlobalLayoutListener(new GlobalLayoutListener(this));
 
-        if (flitchioController != null && flitchioPoller != null) {
-            flitchioController.onResume(flitchioPoller, null, new Handler());
+        if (flitchioController != null) {
+            flitchioController.onResume();
         }
     }
 
@@ -146,24 +146,39 @@ public class FullscreenActivity extends AppCompatActivity {
         }
 
         flitchioController = FlitchioController.getInstance(this);
-        try {
-            flitchioController.onCreate();
-        } catch (FlitchioManagerDependencyException e) {
-            //Toast.makeText(this, getString(R.string.flitchio_create_error), Toast.LENGTH_LONG).show();
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_error_title)
-                    .setMessage(R.string.dialog_error_message)
-                    .setPositiveButton(R.string.open_play_store, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(FlitchioController.getPlayStoreIntentForFlitchioManager());
-                            finish();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
-            flitchioController = null;
-        }
+        flitchioController.onCreate(new FlitchioStatusListener() {
+            @Override
+            public void onFlitchioStatusChanged(Status status) {
+                if (status.code == Status.BINDING_FAILED && status.failureReason == Status.FailingStatus.REASON_MANAGER_UNUSABLE) {
+                    new AlertDialog.Builder(FullscreenActivity.this)
+                            .setTitle(R.string.dialog_error_title)
+                            .setMessage(R.string.dialog_error_message)
+                            .setPositiveButton(R.string.open_play_store, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(FlitchioController.getPlayStoreIntentForFlitchioManager());
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show();
+                    flitchioController = null;
+
+                } else if (status.code == Status.CONNECTED) {
+                    Util.setFlitchioStatusConnected(FullscreenActivity.this, true);
+
+                    if (!flitchioPoller.isAlive()) {
+                        flitchioPoller.start(); // problem if we start it several times?
+                    }
+                } else if (status.code == Status.DISCONNECTED) {
+                    Util.setFlitchioStatusConnected(FullscreenActivity.this, false);
+
+                    if (flitchioPoller.isAlive()) {
+                        flitchioPoller.interrupt();
+                    }
+                }
+            }
+        });
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
@@ -271,7 +286,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         if (flitchioController != null) {
             flitchioPoller = new FlitchioPoller(this, flitchioController, bluetoothDelegate);
-            flitchioController.onResume(flitchioPoller, null, new Handler());
+            flitchioController.onResume();
         }
 
         final ImageView checklist_vw = (ImageView) findViewById(R.id.checklist);
